@@ -4,42 +4,54 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Personal portfolio</title>
+  <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
-    <header>     
-      <nav>
+    <header class="top_section">
+      <h1>Mohammed Kamil</h1>     
+      <nav class="navbar">
         <a href="#home">Home</a>
         <a href="#contact">Contact</a>
         <a href="#about">About</a>
       </nav>
   </header>
-  <main>
+  <main class="hero">
     <section id = "home">
-      <h1>Hello, I am Mohammed Kamil.</h1>
-      <p> A Sophmore @ AAU</p>
-      <img src="C:\Users\mcby2\Pictures\Profile\photo_4_2025-09-16_12-49-38-.jpg" alt="A photo of Mohammed Kamil">
+      <h2>Hello, I am Mohammed Kamil.</h2>
+      <p> A Sophmore Student @ AAU</p>
+      <img src="./images/image.png" alt="A photo of Mohammed Kamil">
     </section>
-    <section id = "about"></section> 
+    <section id = "about">
     <h2>About</h2>
       <p>Hello, I am An Information Systems Major. I am passionate about Digital Technology. I love learning things related about software development and Cybersecurity.</p>
       <p> When I have free time I read manhuas or watch manhua recaps on Youtube.
         I also play games like yugioh master duel and slug it out 2.
-        I am also an advanced novice chess player.
+        I am also an novice chess player.
       </p>
+    </section> 
+  </main>
+
       <section id = "contact">
         <form action="" method="get">
           <fieldset>
             <h3>Contact</h3>
             <label for="">
-            Email <input type="email" name="mcby2006@gmail.com" value="email" checked />
+            Email <input type="email" name="contact-method" value="mcby2006@gmail.com" checked />
             </label>
             <label>
-              Phone <input type="tel" name="+251973012690" value="phone" />
+              Phone <input type="tel" name="contact-method" value="+251973012690" />
+            </label>
+            <label>
+              <a href="https://www.linkedin.com/in/mohammed-kamil-429762345/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3B4iubOqobRSGKhkbCsrQt2w%3D%3D" target="_blank">Linkedin</a> 
+            </label>
+            <label>
+               <a href="https://github.com/ICBMAY" target="_blank">Github</a>
             </label>
           </fieldset> 
         </form>
       </section>
-  </main>
+  
   <footer>
     <p>&copy 2026 Mohammed Kamil. All rights reserved.</p>
   </footer>
