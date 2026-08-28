@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Image Gallery</title>
+  <style>
+    .thumbs { display: flex; gap: 10px; margin-top: 10px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <img id="main-img" src="./Images/html.png" alt="Main Display" width="300">
+
+  <div class="thumbs">
+    <span onclick="changeImage('./Images/html.png')">Image 1</span>
+    <span onclick="changeImage('./Images/css.png')">Image 2</span>
+    <span onclick="changeImage('./Images/js.png')">Image 3</span>
+  </div>
+
+  <script>
+    function changeImage(filename) {
+      document.getElementById('main-img').src = filename;
+    }
+  </script>
+</body>
+</html>

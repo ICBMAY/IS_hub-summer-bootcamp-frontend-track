@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DOM Basics</title>
+</head>
+<body>
+  <p id="text-para">Original Text</p>
+  <button id="btn-text">Change Text</button>
+  <button id="btn-color">Change Color</button>
+
+  <script>
+    const para = document.getElementById('text-para');
+    
+    document.getElementById('btn-text').addEventListener('click', () => {
+      para.textContent = 'Hello';
+    });
+
+    document.getElementById('btn-color').addEventListener('click', () => {
+      para.style.color = 'red';
+    });
+  </script>
+</body>
+</html>

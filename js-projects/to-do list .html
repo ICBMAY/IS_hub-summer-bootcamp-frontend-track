@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>To-Do List</title>
+  <style>
+    .done { text-decoration: line-through; }
+    li { cursor: pointer; margin-bottom: 5px; }
+  </style>
+</head>
+<body>
+  <ul id="task-list">
+    <li><span class="task-text">Buy groceries</span> <button class="delete-btn">Delete</button></li>
+    <li><span class="task-text">Clean room</span> <button class="delete-btn">Delete</button></li>
+    <li><span class="task-text">Do the Laundry</span> <button class="delete-btn">Delete</button></li>
+    <li><span class="task-text">Prepare food</span> <button class="delete-btn">Delete</button></li>
+    <li><span class="task-text">Take out the trash</span> <button class="delete-btn">Delete</button></li>
+    <li><span class="task-text">Wash the dishes</span> <button class="delete-btn">Delete</button></li>
+  </ul>
+
+  <script>
+    document.getElementById('task-list').addEventListener('click', (event) => {
+      if (event.target.classList.contains('task-text')) {
+        event.target.classList.toggle('done');
+      }
+    });
+  </script>
+</body>
+</html>
