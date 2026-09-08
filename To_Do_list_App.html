@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Persistent Task Manager</title>
+  <style>
+    body {
+      font-family:  sans-serif;
+      background-color: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      padding-top: 50px;
+    }
+    #app {
+      background: #ffffff;
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    .input-group, .filter-group, .footer-group {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      background: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button.active-filter {
+      background: #007bff;
+      color: #fff;
+      border-color: #007bff;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 16px 0;
+    }
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .task-content {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+    .completed {
+      text-decoration: line-through;
+      color: #888;
+    }
+    .delete-btn {
+      color: #dc3545;
+      border: none;
+      background: none;
+      font-weight: bold;
+      padding: 4px 8px;
+    }
+    .footer-group {
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9em;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+<div id="app">
+    <h2>Task Manager</h2>
+    <div class="input-group">
+        <input type="text" id="taskInput" placeholder="New task...">
+        <button id="addBtn"><b> + </b><span> </span> Add</button>
+    </div>
+    <div class="filter-group">
+        <button id="showAllBtn" class="active-filter">All</button>
+        <button id="showActiveBtn">Active</button>
+        <button id="showDoneBtn">Done</button>
+    </div>
+    <ul id="taskList"></ul>
+    <div class="footer-group">
+        <span id="counter">0 active / 0 total</span>
+        <button id="clearDoneBtn">Clear Done</button>
+    </div>
+</div>
+
+<script>
+  // STATE MANAGEMENT
+  let tasks = [];
+  let currentFilter = 'all';
+
+  // DOM REFERENCES
+  const taskInput = document.getElementById('taskInput');
+  const addBtn = document.getElementById('addBtn');
+  const taskList = document.getElementById('taskList');
+  const counter = document.getElementById('counter');
+  const clearDoneBtn = document.getElementById('clearDoneBtn');
+  
+  const filterBtns = {
+    all: document.getElementById('showAllBtn'),
+    active: document.getElementById('showActiveBtn'),
+    done: document.getElementById('showDoneBtn')
+  };
+
+  // PERSISTENCE VIA (LOCALSTORAGE)
+  const saveTasks = () => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  };
+
+  const loadTasks = () => {
+    const savedData = localStorage.getItem('tasks');
+    if (savedData) {
+      tasks = JSON.parse(savedData);
+    } else {
+      // Starter tasks if storage is empty
+      tasks = [
+        { id: Date.now(), text: 'Learn ES6 Arrays & Objects', completed: true },
+        { id: Date.now() + 1, text: 'Build Task Manager Capstone', completed: false }
+      ];
+    }
+  };
+
+  // MAIN RENDER FUNCTION
+  const render = () => {
+    // Filter tasks according to state
+    const filteredTasks = tasks.filter(task => {
+      if (currentFilter === 'active') return !task.completed;
+      if (currentFilter === 'done') return task.completed;
+      return true; // 'all'
+    });
+
+    // Generate List Items using map() and join()
+    taskList.innerHTML = filteredTasks.map(task => `
+      <li>
+        <span class="task-content ${task.completed ? 'completed' : ''}" onclick="toggleTask(${task.id})">
+          <input type="checkbox" ${task.completed ? 'checked' : ''} readOnly>
+          <span>${escapeHTML(task.text)}</span>
+        </span>
+        <button class="delete-btn" onclick="deleteTask(${task.id})">&times;</button>
+      </li>
+    `).join('');
+
+    // Update Counter
+    const activeCount = tasks.filter(t => !t.completed).length;
+    counter.textContent = `${activeCount} active / ${tasks.length} total`;
+
+    // Highlight Active Filter Button
+    Object.keys(filterBtns).forEach(key => {
+      filterBtns[key].classList.toggle('active-filter', key === currentFilter);
+    });
+
+    // Save updated state
+    saveTasks();
+  };
+
+  // ACTION HANDLERS
+  const addTask = () => {
+    const text = taskInput.value.trim();
+    if (!text) return;
+
+    const newTask = {
+      id: Date.now(),
+      text: text,
+      completed: false
+    };
+
+    tasks.push(newTask);
+    taskInput.value = '';
+    render();
+  };
+
+  const toggleTask = (id) => {
+    tasks = tasks.map(task => 
+      task.id === id ? { ...task, completed: !task.completed } : task
+    );
+    render();
+  };
+
+  const deleteTask = (id) => {
+    tasks = tasks.filter(task => task.id !== id);
+    render();
+  };
+
+  const clearDone = () => {
+    tasks = tasks.filter(task => !task.completed);
+    render();
+  };
+
+  const setFilter = (filter) => {
+    currentFilter = filter;
+    render();
+  };
+
+  //EVENT LISTENERS
+  addBtn.addEventListener('click', addTask);
+  
+  taskInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') addTask();
+  });
+
+  filterBtns.all.addEventListener('click', () => setFilter('all'));
+  filterBtns.active.addEventListener('click', () => setFilter('active'));
+  filterBtns.done.addEventListener('click', () => setFilter('done'));
+
+  clearDoneBtn.addEventListener('click', clearDone);
+
+  //INITIALIZATION
+  loadTasks();
+  render();
+  
+</script>
+</body>
+</html>
