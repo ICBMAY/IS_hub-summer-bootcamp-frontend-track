@@ -3,7 +3,7 @@
 A responsive, single-page portfolio with light/dark themes and a live list of
 public GitHub repositories.
 
-**Live site:** https://ICBMAY.github.io/IS_hub-summer-bootcamp-frontend-track/
+**Live site:** https://my-portfolio-khaki-two-66.vercel.app/
 
 ## Quick Start
 
@@ -71,8 +71,8 @@ src/
 
 ## Deployment
 
-The site deploys to GitHub Pages automatically through GitHub Actions
-(`.github/workflows/deploy.yml`) every time changes are pushed to `main`.
+The site deploys to vercel
+(`https://my-portfolio-khaki-two-66.vercel.app/`)
 
 ## Tech stack
 
