@@ -34,12 +34,6 @@ npm run build     # production build in /dist
 npm run preview   # preview the production build locally
 ```
 
-## Customize
-
-1. Edit `src/data/profile.js` with your name, bio, skills, email and links.
-2. Set `githubUsername` in the same file to load your own repositories.
-3. Change the colors in `src/index.css` to re-theme the site.
-
 ## GitHub integration
 
 `src/hooks/useGithubRepos.js` calls
